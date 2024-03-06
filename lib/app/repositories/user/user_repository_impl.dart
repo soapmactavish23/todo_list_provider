@@ -27,11 +27,12 @@ class UserRepositoryImpl implements UserRepository {
             await _firebaseAuth.fetchSignInMethodsForEmail(email);
         if (loginTypes.contains('password')) {
           throw AuthException(
-              message: 'E-mail já utilizado, por favor escolha outro e-mail');
-        } else {
-          throw AuthException(
             message:
                 'Você se cadastrou no TodoList pelo Google, por favor utilize ele para entrar',
+          );
+        } else {
+          throw AuthException(
+            message: 'E-mail já utilizado, por favor escolha outro e-mail',
           );
         }
       } else {
