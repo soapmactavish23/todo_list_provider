@@ -7,6 +7,7 @@ import 'package:todo_list_provider/app/repositories/user/user_repository.dart';
 import 'package:todo_list_provider/app/repositories/user/user_repository_impl.dart';
 import 'package:todo_list_provider/app/services/user/user_service.dart';
 import 'package:todo_list_provider/app/services/user/user_service_impl.dart';
+import 'package:todo_list_provider/app/core/auth/todo_list_auth_provider.dart';
 
 class AppModule extends StatelessWidget {
   const AppModule({super.key});
@@ -30,6 +31,12 @@ class AppModule extends StatelessWidget {
             userRepository: context.read<UserRepository>(),
           ),
         ),
+        ChangeNotifierProvider(
+            lazy: false,
+            create: (context) => TodoListAuthProvider(
+                  firebaseAuth: context.read<FirebaseAuth>(),
+                  userService: context.read<UserService>(),
+                )..loadListener())
       ],
       child: const AppWidget(),
     );
