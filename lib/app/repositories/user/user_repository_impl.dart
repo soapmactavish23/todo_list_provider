@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_list_provider/app/exception/auth_exception.dart';
 
 import 'package:todo_list_provider/app/repositories/user/user_repository.dart';
@@ -81,5 +82,37 @@ class UserRepositoryImpl implements UserRepository {
       log(message, error: e, stackTrace: s);
       throw AuthException(message: message);
     }
+  }
+
+  @override
+  Future<User?> googleLogin() async {
+    try {
+      final googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
+
+      if (googleUser != null) {
+        final googleAuth = await googleUser.authentication;
+        final firebaseCredential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        var userCredential = await _firebaseAuth.signInWithCredential(
+          firebaseCredential,
+        );
+        return userCredential.user;
+      } else {
+        throw AuthException(message: 'Não foi possível logar com o google');
+      }
+    } on FirebaseAuthException catch (e, s) {
+      String message = 'Erro ao realizar login';
+      log(message, error: e, stackTrace: s);
+      throw AuthException(message: message);
+    }
+  }
+
+  @override
+  Future<void> googleLogout() async {
+    await GoogleSignIn().signOut();
+    _firebaseAuth.signOut();
   }
 }
