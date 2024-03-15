@@ -3,6 +3,8 @@ import 'package:todo_list_provider/app/core/ui/theme_extension.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_drawer.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_filter.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/home_header.dart';
+import 'package:todo_list_provider/app/modules/home/widgets/home_tasks.dart';
+import 'package:todo_list_provider/app/modules/home/widgets/home_week_filter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -43,13 +45,23 @@ class HomePage extends StatelessWidget {
                 child: const IntrinsicHeight(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [HomeHeader(), HomeFilter()],
+                    children: [
+                      HomeHeader(),
+                      HomeFilter(),
+                      HomeWeekFilter(),
+                      HomeTasks(),
+                    ],
                   ),
                 ),
               ),
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: context.primaryColor,
+        child: const Icon(Icons.add),
       ),
     );
   }
