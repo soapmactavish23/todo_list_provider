@@ -36,10 +36,7 @@ class _AppWidgetState extends State<AppWidget> {
       title: 'Todo List Provider',
       debugShowCheckedModeBanner: false,
       navigatorKey: TodoListNavigator.navigatorKey,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [Locale('pt', 'BR')],
       routes: {
         ...AuthModule().routers,

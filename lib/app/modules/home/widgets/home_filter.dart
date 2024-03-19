@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extension.dart';
+import 'package:todo_list_provider/app/models/task_filter_enum.dart';
+import 'package:todo_list_provider/app/models/total_task_model.dart';
+import 'package:todo_list_provider/app/modules/home/home_controller.dart';
 import 'package:todo_list_provider/app/modules/home/widgets/todo_card_filter.dart';
 
 class HomeFilter extends StatelessWidget {
@@ -7,6 +11,12 @@ class HomeFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool _getSelected(TaskFilterEnum filter) {
+      return context.select<HomeController, TaskFilterEnum>(
+              (value) => value.filterSelected) ==
+          filter;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -17,14 +27,37 @@ class HomeFilter extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        const SingleChildScrollView(
+        SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              TodoCardFilter(),
-              TodoCardFilter(),
-              TodoCardFilter(),
-              TodoCardFilter(),
+              TodoCardFilter(
+                label: 'Hoje',
+                taskFilter: TaskFilterEnum.today,
+                totalTaskModel: TotalTaskModel(
+                  totalTasks: 20,
+                  totalTasksFinish: 5,
+                ),
+                selected: _getSelected(TaskFilterEnum.today),
+              ),
+              TodoCardFilter(
+                label: 'Amanhã',
+                taskFilter: TaskFilterEnum.tomorow,
+                totalTaskModel: TotalTaskModel(
+                  totalTasks: 10,
+                  totalTasksFinish: 5,
+                ),
+                selected: _getSelected(TaskFilterEnum.tomorow),
+              ),
+              TodoCardFilter(
+                label: 'Semana',
+                taskFilter: TaskFilterEnum.week,
+                totalTaskModel: TotalTaskModel(
+                  totalTasks: 10,
+                  totalTasksFinish: 5,
+                ),
+                selected: _getSelected(TaskFilterEnum.week),
+              ),
             ],
           ),
         )
