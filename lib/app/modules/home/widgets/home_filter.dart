@@ -34,27 +34,22 @@ class HomeFilter extends StatelessWidget {
               TodoCardFilter(
                 label: 'Hoje',
                 taskFilter: TaskFilterEnum.today,
-                totalTaskModel: TotalTaskModel(
-                  totalTasks: 20,
-                  totalTasksFinish: 5,
-                ),
+                totalTaskModel: context.select<HomeController, TotalTaskModel?>(
+                    (controller) => controller.todayTotalTasks),
                 selected: _getSelected(TaskFilterEnum.today),
               ),
               TodoCardFilter(
                 label: 'Amanhã',
                 taskFilter: TaskFilterEnum.tomorow,
-                totalTaskModel: TotalTaskModel(
-                  totalTasks: 10,
-                  totalTasksFinish: 5,
-                ),
+                totalTaskModel: context.select<HomeController, TotalTaskModel?>(
+                    (controller) => controller.tomorowTotalTasks),
                 selected: _getSelected(TaskFilterEnum.tomorow),
               ),
               TodoCardFilter(
                 label: 'Semana',
                 taskFilter: TaskFilterEnum.week,
-                totalTaskModel: TotalTaskModel(
-                  totalTasks: 10,
-                  totalTasksFinish: 5,
+                totalTaskModel: context.select<HomeController, TotalTaskModel?>(
+                  (controller) => controller.weekTotalTasks,
                 ),
                 selected: _getSelected(TaskFilterEnum.week),
               ),
