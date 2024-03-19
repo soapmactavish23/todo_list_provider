@@ -38,7 +38,8 @@ class _RegisterPageState extends State<RegisterPage> {
       context: context,
       successCallback: (notifier, listenerInstance) {
         listenerInstance.dispose();
-        Navigator.pop(context);
+        // Removi esse pop devido a alterações no todo_list_auth_provider
+        // Navigator.pop(context);
       },
     );
   }
