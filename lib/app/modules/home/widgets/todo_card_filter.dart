@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list_provider/app/core/ui/theme_extension.dart';
 import 'package:todo_list_provider/app/models/task_filter_enum.dart';
 import 'package:todo_list_provider/app/models/total_task_model.dart';
+import 'package:todo_list_provider/app/modules/home/home_controller.dart';
 
 class TodoCardFilter extends StatelessWidget {
   final String label;
@@ -46,37 +48,43 @@ class TodoCardFilter extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(30),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '${totalTaskModel?.totalTasks ?? 0} TASKS',
-            style: context.textStyle.copyWith(
-                fontSize: 10, color: selected ? Colors.white : Colors.grey),
-          ),
-          Text(
-            label.toUpperCase(),
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: selected ? Colors.white : Colors.black,
+      child: InkWell(
+        onTap: () =>
+            context.read<HomeController>().findTasks(filter: taskFilter),
+        borderRadius: BorderRadius.circular(30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${totalTaskModel?.totalTasks ?? 0} TASKS',
+              style: context.textStyle.copyWith(
+                  fontSize: 10, color: selected ? Colors.white : Colors.grey),
             ),
-          ),
-          TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.0, end: _getTotalPercent()),
-            duration: const Duration(seconds: 1),
-            builder: (context, value, child) {
-              return LinearProgressIndicator(
-                backgroundColor:
-                    selected ? context.primaryColorLight : Colors.grey.shade300,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  selected ? Colors.white : context.primaryColor,
-                ),
-                value: value,
-              );
-            },
-          )
-        ],
+            Text(
+              label.toUpperCase(),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: selected ? Colors.white : Colors.black,
+              ),
+            ),
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: _getTotalPercent()),
+              duration: const Duration(seconds: 1),
+              builder: (context, value, child) {
+                return LinearProgressIndicator(
+                  backgroundColor: selected
+                      ? context.primaryColorLight
+                      : Colors.grey.shade300,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    selected ? Colors.white : context.primaryColor,
+                  ),
+                  value: value,
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
