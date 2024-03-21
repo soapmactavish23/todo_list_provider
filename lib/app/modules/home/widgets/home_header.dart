@@ -8,9 +8,7 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
+    return Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Selector<TodoListAuthProvider, String>(
             selector: (context, authProvider) =>
@@ -23,8 +21,6 @@ class HomeHeader extends StatelessWidget {
               );
             },
           ),
-        ),
-      ],
-    );
+        );
   }
 }
